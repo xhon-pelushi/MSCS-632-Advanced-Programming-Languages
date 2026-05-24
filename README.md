@@ -9,4 +9,5 @@
 
 | Folder | Assignment |
 |--------|-----------|
+| [Assignment-1](./Assignment-1/) | Evolution of Programming Languages (Research Paper) |
 | [Assignment-2](./Assignment-2/) | Syntax, Semantics, and Memory Management |
