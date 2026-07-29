@@ -15,3 +15,4 @@
 | [Assignment-4](./Assignment-4/) | Implementing Control Structures (Employee Shift Scheduler — Python & Go) |
 | [Assignment-5](./Assignment-5/) | Developing a Class-Based Ride Sharing System (C++ & Smalltalk) |
 | [Assignment-7](./Assignment-7/) | Multi-Paradigm Problem Solving (Mean/Median/Mode — C, OCaml & Python) |
+| [Assignment-8](./Assignment-8/) | Building a Family Tree in Prolog |
