@@ -1,0 +1,7 @@
+*.o
+*.cmi
+*.cmo
+*.cmx
+statistics
+__pycache__/
+*.pyc
