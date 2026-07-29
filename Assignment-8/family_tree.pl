@@ -1,114 +1,84 @@
-%==============================================================================
-% Family Tree Program in Prolog
-% MSCS-632-M30 — Assignment 8
-% Student: Xhon Pelushi
+% MSCS-632 Assignment 8 — Family relationships in Prolog
+% Xhon Pelushi
+
+% Gender
+male(arben).
+male(dritan).
+male(genti).
+male(agim).
+male(ilir).
+male(besnik).
+male(endrit).
+
+female(lule).
+female(ana).
+female(elira).
+female(blerina).
+female(teuta).
+female(mira).
+female(arta).
+female(rina).
+
+% parent(Older, Younger)
 %
-% Basic facts (parent/2, male/1, female/1) plus derived rules for
-% child, grandparent, sibling, cousin, ancestor, and descendant.
-%==============================================================================
+%   arben -- lule
+%      |         \
+%   dritan+ana   elira+genti
+%    /     \       /      \
+% blerina  agim  teuta  besnik+mira
+%  +ilir                      |
+%  /   \                     rina
+% arta endrit
 
-%------------------------------------------------------------------------------
-% Gender facts
-%------------------------------------------------------------------------------
-male(george).
-male(john).
-male(mike).
-male(tom).
-male(david).
-male(bob).
-male(james).
+parent(arben, dritan).
+parent(lule, dritan).
+parent(arben, elira).
+parent(lule, elira).
 
-female(helen).
-female(lisa).
-female(susan).
-female(mary).
-female(alice).
-female(kate).
-female(emma).
-female(olivia).
+parent(dritan, blerina).
+parent(ana, blerina).
+parent(dritan, agim).
+parent(ana, agim).
 
-%------------------------------------------------------------------------------
-% Parent facts: parent(Parent, Child)
-%
-% Family structure (four generations):
-%
-%   george + helen
-%     ├── john + lisa
-%     │     ├── mary + david
-%     │     │     ├── emma
-%     │     │     └── james
-%     │     └── tom
-%     └── susan + mike
-%           ├── alice
-%           └── bob + kate
-%                 └── olivia
-%------------------------------------------------------------------------------
+parent(elira, teuta).
+parent(genti, teuta).
+parent(elira, besnik).
+parent(genti, besnik).
 
-% Generation 1 → Generation 2
-parent(george, john).
-parent(helen, john).
-parent(george, susan).
-parent(helen, susan).
+parent(blerina, arta).
+parent(ilir, arta).
+parent(blerina, endrit).
+parent(ilir, endrit).
 
-% Spouses who are parents of Generation 3
-parent(john, mary).
-parent(lisa, mary).
-parent(john, tom).
-parent(lisa, tom).
+parent(besnik, rina).
+parent(mira, rina).
 
-parent(susan, alice).
-parent(mike, alice).
-parent(susan, bob).
-parent(mike, bob).
+% --- derived ---
 
-% Generation 3 → Generation 4
-parent(mary, emma).
-parent(david, emma).
-parent(mary, james).
-parent(david, james).
+child(Kid, Adult) :-
+    parent(Adult, Kid).
 
-parent(bob, olivia).
-parent(kate, olivia).
+grandparent(GP, GC) :-
+    parent(GP, Mid),
+    parent(Mid, GC).
 
-%------------------------------------------------------------------------------
-% Derived relationships (rules)
-%------------------------------------------------------------------------------
+sibling(A, B) :-
+    parent(Shared, A),
+    parent(Shared, B),
+    A \== B.
 
-% child(Child, Parent) — inverse of parent/2
-child(Child, Parent) :-
-    parent(Parent, Child).
+cousin(Person, Other) :-
+    parent(ParentA, Person),
+    parent(ParentB, Other),
+    sibling(ParentA, ParentB),
+    Person \== Other.
 
-% grandparent(Grandparent, Grandchild)
-% X is a grandparent of Y if X is a parent of some Z who is a parent of Y.
-grandparent(X, Y) :-
-    parent(X, Z),
-    parent(Z, Y).
+% recursive climb of the parent chain
+ancestor(Older, Younger) :-
+    parent(Older, Younger).
+ancestor(Older, Younger) :-
+    parent(Older, Between),
+    ancestor(Between, Younger).
 
-% sibling(X, Y) — X and Y share at least one parent and are not the same person.
-sibling(X, Y) :-
-    parent(P, X),
-    parent(P, Y),
-    X \= Y.
-
-% cousin(X, Y) — X and Y have parents who are siblings.
-cousin(X, Y) :-
-    parent(P1, X),
-    parent(P2, Y),
-    sibling(P1, P2),
-    X \= Y.
-
-%------------------------------------------------------------------------------
-% Recursive relationships
-%------------------------------------------------------------------------------
-
-% ancestor(X, Y) — X is an ancestor of Y (parent, grandparent, great-grandparent, …)
-ancestor(X, Y) :-
-    parent(X, Y).
-ancestor(X, Y) :-
-    parent(X, Z),
-    ancestor(Z, Y).
-
-% descendant(X, Y) — X is a descendant of Y (child, grandchild, …)
-% Defined as the inverse of ancestor so one recursive definition serves both.
-descendant(X, Y) :-
-    ancestor(Y, X).
+descendant(Younger, Older) :-
+    ancestor(Older, Younger).

@@ -1,54 +1,34 @@
-%==============================================================================
-% Sample Queries for family_tree.pl
-% Run with:  swipl -l family_tree.pl
-% Then enter the queries below at the ?- prompt.
-%==============================================================================
+% Sample queries for family_tree.pl (SWI-Prolog)
+% Load with: swipl -l family_tree.pl
 
-% --- 1. Children of a person ---
-% Who are the children of john?
-% ?- parent(john, Child).
-% Expected:
-%   Child = mary ;
-%   Child = tom.
+% Children of dritan
+% ?- parent(dritan, Kid).
+% Kid = blerina ; Kid = agim.
 
-% --- 2. Siblings of a person ---
-% Who are the siblings of mary?
-% ?- setof(S, sibling(mary, S), Siblings).
-% Expected:
-%   Siblings = [tom].
+% Siblings of blerina
+% ?- setof(S, sibling(blerina, S), Sibs).
+% Sibs = [agim].
 
-% --- 3. Cousin check ---
-% Is alice a cousin of mary?
-% ?- cousin(mary, alice).
-% Expected:
-%   true.
+% Cousin check
+% ?- cousin(blerina, teuta).
+% true.
 
-% --- 4. Grandparents ---
-% Who are the grandparents of emma?
-% ?- setof(G, grandparent(G, emma), Grandparents).
-% Expected:
-%   Grandparents = [john, lisa].
+% Grandparents of arta
+% ?- setof(G, grandparent(G, arta), GPs).
+% GPs = [ana, dritan].
 
-% --- 5. Cousins of a person ---
-% Who are mary's cousins?
-% ?- setof(C, cousin(mary, C), Cousins).
-% Expected:
-%   Cousins = [alice, bob].
+% Cousins of blerina
+% ?- setof(C, cousin(blerina, C), Cousins).
+% Cousins = [besnik, teuta].
 
-% --- 6. Grandchildren (grandparent query inverted) ---
-% Who are the grandchildren of george?
-% ?- setof(GC, grandparent(george, GC), Grandchildren).
-% Expected:
-%   Grandchildren = [alice, bob, mary, tom].
+% Grandchildren of arben
+% ?- setof(GC, grandparent(arben, GC), Grandkids).
+% Grandkids = [agim, besnik, blerina, teuta].
 
-% --- 7. Recursive descendants ---
-% Who are all descendants of george?
-% ?- setof(D, descendant(D, george), Descendants).
-% Expected:
-%   Descendants = [alice, bob, emma, james, john, mary, olivia, susan, tom].
+% All descendants of arben (recursive)
+% ?- setof(D, descendant(D, arben), Down).
+% Down = [agim, arta, besnik, blerina, dritan, elira, endrit, rina, teuta].
 
-% --- 8. Recursive ancestors ---
-% Who are all ancestors of emma?
-% ?- setof(A, ancestor(A, emma), Ancestors).
-% Expected:
-%   Ancestors = [david, george, helen, john, lisa, mary].
+% All ancestors of arta (recursive)
+% ?- setof(A, ancestor(A, arta), Up).
+% Up = [ana, arben, blerina, dritan, ilir, lule].
